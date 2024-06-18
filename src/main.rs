@@ -26,7 +26,9 @@ fn main() {
     for mp3 in mp3_list {
         let rtools = RTools { apath: mp3 };
         let tag_info = RTools::get_tag_info_mp3(&rtools);
-        println!("artist: {:?}", tag_info.artist);
+        let new_fn = tag_info.disc + "_" + &tag_info.track + "_-_" + &tag_info.artist + "_-_" + &tag_info.album + "_-_" + &tag_info.song + &RTools::split_ext(&rtools);
+        
+        println!("new_fn: {:?}", new_fn);
         // match tag_info {
         //     Ok((artist, album, song, track, disc, genre)) => {
         //         println!(
