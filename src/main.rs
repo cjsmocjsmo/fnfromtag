@@ -172,7 +172,7 @@ impl RTools {
             album: tag.album().expect(&self.apath).to_string(),
             song: tag.title().expect(&self.apath).to_string(),
             track: tag.track().expect(&self.apath).to_string(),
-            disc: tag.disc().expect("01").to_string(),
+            disc: tag.disc().unwrap_or(1).to_string(),
             genre: tag.genre().expect(&self.apath).to_string(),
         };
         // let artist = tag.artist().expect(&self.apath);
