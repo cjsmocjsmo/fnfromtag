@@ -152,18 +152,6 @@ impl RTools {
                     disc: "No ID3 tag found".to_string(),
                     genre: "No ID3 tag found".to_string(),
                 };
-                // let target_dir = Path::new("/home/charliepi/needs_work");
-                // if !target_dir.exists() {
-                //     fs::create_dir_all(target_dir)?;
-                // }
-                // fs::rename(
-                //     &self.apath,
-                //     target_dir.join(Path::new(&self.apath).file_name().unwrap()),
-                // )?;
-                // return Err(std::io::Error::new(
-                //     std::io::ErrorKind::Other,
-                //     "No ID3 tag found",
-                // ));
             }
         };
 
@@ -175,21 +163,6 @@ impl RTools {
             disc: tag.disc().unwrap_or(1).to_string(),
             genre: tag.genre().expect(&self.apath).to_string(),
         };
-        // let artist = tag.artist().expect(&self.apath);
-        // let album = tag.album().expect(&self.apath);
-        // let song = tag.title().expect(&self.apath);
-        // let track = tag.track().expect(&self.apath);
-        // let disc = tag.disc().expect(&self.apath);
-        // let genre = tag.genre().expect(&self.apath);
-
-        // Ok((
-        //     artist.to_string(),
-        //     album.to_string(),
-        //     song.to_string(),
-        //     track.to_string(),
-        //     disc.to_string(),
-        //     genre.to_string(),
-        // ))
 
         tinfo
     }
