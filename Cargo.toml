@@ -1,0 +1,9 @@
+[package]
+name = "fnfromtag"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+id3 = "1.13.1"
+regex = "1.10.4"
+walkdir = "2.5.0"
