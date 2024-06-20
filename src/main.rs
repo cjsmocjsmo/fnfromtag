@@ -27,9 +27,6 @@ fn main() {
         let rtools = RTools { apath: mp3 };
         let namecheck = RTools::check_file_name_format(&rtools);
         if !namecheck {
-            // println!("File name format is incorrect: {:?}", &rtools.apath);
-            // continue;
-
             let tag_info = RTools::get_tag_info_mp3(&rtools);
             println!("Tag info: {:?}", tag_info.track);
             if tag_info.track.len() == 1 {
@@ -45,31 +42,21 @@ fn main() {
                     + &RTools::split_ext(&rtools);
                 let newfn = new_fn.replace(" ", "_");
                 println!("new_fn: {:?}", newfn);
-            } else {
-                let new_fn = tag_info.disc
-                    + "_"
-                    + &tag_info.track
-                    + "_-_"
-                    + &tag_info.artist
-                    + "_-_"
-                    + &tag_info.album
-                    + "_-_"
-                    + &tag_info.song
-                    + &RTools::split_ext(&rtools);
-                let newfn = new_fn.replace(" ", "_");
-                println!("new_fn: {:?}", newfn);
-                // match tag_info {
-                //     Ok((artist, album, song, track, disc, genre)) => {
-                //         println!(
-                //             "Artist: {}, Album: {}, Song: {}, Track: {}, Disc: {}, Genre: {}",
-                //             artist, album, song, track, disc, genre
-                //         );
-                //     }
-                //     Err(e) => {
-                //         println!("Error: {}", e);
-                //     }
-                // }
-            }
+            } 
+            // else {
+            //     let new_fn = tag_info.disc
+            //         + "_"
+            //         + &tag_info.track
+            //         + "_-_"
+            //         + &tag_info.artist
+            //         + "_-_"
+            //         + &tag_info.album
+            //         + "_-_"
+            //         + &tag_info.song
+            //         + &RTools::split_ext(&rtools);
+            //     let newfn = new_fn.replace(" ", "_");
+            //     println!("new_fn: {:?}", newfn);
+            // }
         }
     }
 }
@@ -90,17 +77,6 @@ pub struct TagInfoStruct {
 }
 
 impl RTools {
-    // pub fn split_home_dir(&self) -> String {
-    //     let path = Path::new(&self.apath);
-    //     let home_dir = Path::new("/home/charliepi/Music");
-
-    //     let relative_path = path.strip_prefix(home_dir).unwrap_or(path);
-    //     let file_name = relative_path
-    //         .file_name()
-    //         .unwrap_or_else(|| &std::ffi::OsStr::new(""));
-
-    //     file_name.to_string_lossy().into_owned()
-    // }
     pub fn find_media(&self) -> Vec<String> {
         println!("Dir path: {:?}", &self.apath);
         let mut media_files = Vec::new();
@@ -142,34 +118,6 @@ impl RTools {
         }
     }
 
-    // pub fn split_base_dir_filename(&self) -> (String, String) {
-    //     let path = Path::new(&self.apath);
-    //     let dir_path = path.parent().unwrap();
-    //     let filename = path.file_name().unwrap();
-
-    //     (
-    //         dir_path.to_string_lossy().to_string(),
-    //         filename.to_string_lossy().to_string(),
-    //     )
-    // }
-
-    // pub fn split_artist_album(&self) -> (String, String) {
-    //     let path = Path::new(&self.apath);
-    //     let basedir = path.parent().unwrap();
-    //     let basedirpath = Path::new(&basedir);
-    //     let album = basedirpath.file_name().unwrap();
-    //     let basedirpath2 = basedirpath.parent().unwrap();
-    //     let bdp3 = Path::new(&basedirpath2);
-    //     let artist = bdp3.file_name().unwrap();
-    //     let album_string = album.to_string_lossy().to_string();
-    //     let artist_string = artist.to_string_lossy().to_string();
-
-    //     let album_final = album_string.replace("_", " ");
-    //     let artist_final = artist_string.replace("_", " ");
-
-    //     (artist_final, album_final)
-    // }
-
     pub fn get_tag_info_mp3(&self) -> TagInfoStruct {
         let tag = match Tag::read_from_path(&self.apath) {
             Ok(tag) => tag,
@@ -206,50 +154,18 @@ impl RTools {
             None => "split_ext did not work".to_string(),
         };
         let ext = ".".to_string() + boo.as_str();
-        // println!("Ext: {:?}", ext);
 
         ext
     }
 
-    // pub fn get_dims(&self) -> (u32, u32) {
-    //     let dims = get_image_dims(&self.apath);
+    pub fn split_dir(&self) -> String {
+        let path = Path::new(&self.apath);
+        let boo_results = path.parent();
+        let boo = match boo_results {
+            Some(b) => b.to_string_lossy().to_string(),
+            None => "split_dir did not work".to_string(),
+        };
 
-    //     dims
-    // }
-    // pub fn artist_starts_with(&self) -> String {
-    //     let tag = Tag::read_from_path(&self.apath).expect(&self.apath);
-    //     let artist = tag.artist().expect(&self.apath);
-    //     let first_letter = artist.chars().next().unwrap();
-
-    //     first_letter.to_string()
-    // }
-
-    // pub fn album_starts_with(&self) -> String {
-    //     let tag = Tag::read_from_path(&self.apath).expect(&self.apath);
-    //     let album = tag.album().expect(&self.apath);
-    //     let first_letter = album.chars().next().unwrap();
-
-    //     first_letter.to_string()
-    // }
-
-    // pub fn song_starts_with(&self) -> String {
-    //     let tag = Tag::read_from_path(&self.apath).expect(&self.apath);
-    //     let song = tag.title().expect(&self.apath);
-    //     let first_letter = song.chars().next().unwrap();
-
-    //     first_letter.to_string()
-    // }
-
-    // pub fn create_mp3_play_path(&self) -> String {
-    //     let psplit = self.apath.split("/").skip(3).collect::<Vec<&str>>();
-    //     let assend = psplit.join("/");
-
-    //     let myhttpd = env::var("RUSIC_HTTP_ADDR").unwrap();
-    //     let myport = env::var("RUSIC_PORT").unwrap();
-
-    //     // let playpath = myhttpd + &myport + "/Music/" + assend.as_str();
-    //     let playpath = myhttpd + &myport + "/" + assend.as_str();
-
-    //     playpath
-    // }
+        boo
+    }
 }
