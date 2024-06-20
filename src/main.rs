@@ -26,9 +26,10 @@ fn main() {
     for mp3 in mp3_list {
         let rtools = RTools { apath: mp3 };
         let namecheck = RTools::check_file_name_format(&rtools);
+        let dirpath = RTools::split_dir(&rtools);
         if !namecheck {
             let tag_info = RTools::get_tag_info_mp3(&rtools);
-            println!("Tag info: {:?}", tag_info.track);
+            // println!("Tag info: {:?}", tag_info.track);
             if tag_info.track.len() == 1 {
                 let new_fn = tag_info.disc
                     + "_0"
@@ -40,7 +41,9 @@ fn main() {
                     + "_-_"
                     + &tag_info.song
                     + &RTools::split_ext(&rtools);
-                let newfn = new_fn.replace(" ", "_");
+                let nfn = new_fn.replace(" ", "_");
+                let newfn = dirpath + "/" + &nfn;
+
                 println!("new_fn: {:?}", newfn);
             } 
             // else {
